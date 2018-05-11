@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import {saveTodo} from '../reducers/todo'
 
-export default class extends Component {
+class TodoForm extends Component {
   constructor(props) {
     super(props)
     this.state = {input: ""}
@@ -8,9 +10,16 @@ export default class extends Component {
 
   handleChange = e => this.setState({ input: e.target.value})
   
+  handleSubmit = (e) => {
+    e.preventDefault();
+    this.props.saveTodo(this.state.input)
+    this.setState({input: ""})
+  }
+
+
   render() {
     return (
-    <form>
+    <form onSubmit={this.handleSubmit}>
       <input 
         type="text" 
         value={this.state.input}
@@ -20,3 +29,8 @@ export default class extends Component {
     )
   }
 }
+
+export default connect(
+  null,
+  { saveTodo }
+)(TodoForm)
